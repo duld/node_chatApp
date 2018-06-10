@@ -20,16 +20,27 @@ io.on('connection', (socket) => {
   console.log('new user is connected');
   console.log(`Connection ID: ${connection_id}`);
 
-  // Emit 'newEmail' event.
-  socket.emit('newEmail', {
-    from: 'jeff@jeff.co',
-    text: 'hi and hello'
-  });
+  // // Emit 'newEmail' event.
+  // socket.emit('newEmail', {
+  //   from: 'jeff@jeff.co',
+  //   text: 'hi and hello'
+  // });
 
-  // Set handler for creating an email
-  socket.on('createEmail', (newEmail) => {
-    console.log(`creating a new email: ${JSON.stringify(newEmail)}`);
-  })
+  // // Set handler for creating an email
+  // socket.on('createEmail', (newEmail) => {
+  //   console.log(`creating a new email: ${JSON.stringify(newEmail)}`);
+  // });
+
+  // Server <- Client :: createMessage
+  socket.on('createMessage', (data) => {
+    console.log('new message being created!')
+
+    // timestamp the message data
+    data.createdAt = Date.now();
+
+    // emit a newMessage event, with the timestamped data.
+    socket.emit('newMessage', data);
+  });
 
   // Set handler for when the client disconnects.
   socket.on('disconnect', () => {
@@ -40,3 +51,15 @@ io.on('connection', (socket) => {
 server.listen(PORT, () => {
   console.log(`Server is up and listening on port: ${PORT}`);
 });
+
+
+// challenge
+/* 
+SERVER -> CLIENT
+emit event - newMessage {from, text, createdAt}
+client listens for newMessage
+
+SERVER <- CLIENT
+emit event - createMessage {from, text}
+server listens for 'createMessage'
+*/
