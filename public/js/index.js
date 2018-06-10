@@ -29,15 +29,3 @@ var createMessage = function(from, text) {
 socket.on('newMessage', function (data) {
   console.log(JSON.stringify(data));
 });
-
-
-// challenge
-/* 
-SERVER -> CLIENT
-emit event - newMessage {from, text, createdAt}
-client listens for newMessage
-
-SERVER <- CLIENT
-emit event - createMessage {from, text}
-server listens for 'createMessage'
-*/
