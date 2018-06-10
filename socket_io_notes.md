@@ -6,12 +6,18 @@ Websockets are a persistant technology. If a connection between a client and the
 is already present, then the client will attempt to maintain the connection, even if 
 the server goes down.
 
-#### Socket IO events
+### Socket IO events
 connection: a server-side event that fires when a client makes a connection via socketIO.
 connect: a client-side event that occurs when a connection is established with socketIO.
 
 ## Emitting and Listening to Events
+We can use socketIO's event emitting and handling functionality to our advantage. It is as simple as telling socketIO to emit an event, and to include a handler for that event and to handle it.
 
+### Handling the event on the client
+We have access to the socketIO through the the __io__ global, which is loaded in from the script on our webserver. To handle an event, we simply need to call, __io('event-name', callback_fn)__. Where 'event-name' is the name of the event we are waiting to handle and the 'callback_fn' is the callback we will run when the event occurs.
+
+### Handling the event on the server
+Identical to handling the event on the client, except we are not sourcing the socketIO module and not a subscript located on our server.
 
 ## Emitting and Listening to Events (solution)
 
