@@ -15,10 +15,23 @@ const publicPath = path.join(__dirname, '/../public');
 app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
+  // grab the connection ID and log it.
   const connection_id = socket.client.conn.id;
   console.log('new user is connected');
   console.log(`Connection ID: ${connection_id}`);
-  
+
+  // Emit 'newEmail' event.
+  socket.emit('newEmail', {
+    from: 'jeff@jeff.co',
+    text: 'hi and hello'
+  });
+
+  // Set handler for creating an email
+  socket.on('createEmail', (newEmail) => {
+    console.log(`creating a new email: ${JSON.stringify(newEmail)}`);
+  })
+
+  // Set handler for when the client disconnects.
   socket.on('disconnect', () => {
     console.log('The client has disconected');
   });
