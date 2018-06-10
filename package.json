@@ -8,6 +8,10 @@
     "start": "node ./server/server.js",
     "watch-server": "nodemon ./server/server.js"
   },
+  "engines": {
+    "node": "8.9.3",
+    "npm": "4.4.4"
+  },
   "author": "Jeffrey McCrea",
   "license": "ISC",
   "dependencies": {
