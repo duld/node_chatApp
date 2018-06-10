@@ -1,21 +1,29 @@
+// Libraries
 const path = require('path');
+const http = require('http');
 const express = require('express');
-const app = express();
-const PORT = 3000;
+const socketIO = require('socket.io');
+
+const PORT = process.env.PORT || 3000;
+let app = express();
+let server = http.createServer(app);
+let io = socketIO(server);
+
 
 // Set director to load static files from.
 const publicPath = path.join(__dirname, '/../public');
-app.use('public', express.static(publicPath));
+app.use(express.static(publicPath));
 
-// GET '/'
-app.get('/', (req, res) => {
-  res.sendFile('index.html', {root: 'public'});
-});
+io.on('connection', (socket) => {
+  const connection_id = socket.client.conn.id;
+  console.log('new user is connected');
+  console.log(`Connection ID: ${connection_id}`);
+  
+  socket.on('disconnect', () => {
+    console.log('The client has disconected');
+  });
+})
 
-app.get('/*', (req, res) => {
-  res.send('this route isn\'t configured yet!')
-});
-
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is up and listening on port: ${PORT}`);
 });
