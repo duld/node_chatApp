@@ -4,6 +4,10 @@ const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
 
+// Utils
+const {generateMessage} = require('./utils/message');
+
+// Server Setup.
 const PORT = process.env.PORT || 3000;
 let app = express();
 let server = http.createServer(app);
@@ -20,8 +24,8 @@ io.on('connection', (socket) => {
   console.log('new user is connected');
   console.log(`Connection ID: ${connection_id}`);
 
-  socket.emit('newMessage', {from: 'Admin', text: 'Welcome to the chat app.', createdAt: Date.now()});
-  socket.broadcast.emit('newMessage', {from: 'Admin', text: 'New user has joined', createdAt: Date.now()});
+  socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
+  socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user has joined'));
 
   // Server <- Client :: createMessage
   socket.on('createMessage', (data) => {
