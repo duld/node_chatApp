@@ -23,13 +23,18 @@ Identical to handling the event on the client, except we are not sourcing the so
 
 
 ## Broadcasting Events
+If you want to emit an event to all connections on a socketIO instance, you would call __'io.emit(EVENT, callback_fn)'__. If however you want to broadcast an event from a single connection and have it go out to the other connections (excluding the source), then you would call __'socket.broadcast.emit(EVENT, callback_fn)'__.
 
+If we have connections: A, B and C. Suppose 'A', broadcasts an event, only connection B and C will handle that event. Connection 'A' will not receive the event.
 
 ## Message Generator & Tests
+Here we refactor out a common snippet of code, into it's own file. We then installed mocha and expect for unit tests. Finally we crated a test file for our newly refactored code.
 
 
 ## Event Acknowledgements
+We can add Event Acknowledgements to our socketIO event emiters by providing a third argument, in the form of a callback. The call back can take a single argument, which can be of any type.
 
+Using acknowledgements and the values they return will allow us some insight on the current state. Was the request good? Was it bad? Are the values returned what we expected?
 
 ## Message Form & jQuery
 
