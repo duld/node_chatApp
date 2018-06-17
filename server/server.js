@@ -20,6 +20,9 @@ io.on('connection', (socket) => {
   console.log('new user is connected');
   console.log(`Connection ID: ${connection_id}`);
 
+  socket.emit('newMessage', {from: 'Admin', text: 'Welcome to the chat app.', createdAt: Date.now()});
+  socket.broadcast.emit('newMessage', {from: 'Admin', text: 'New user has joined', createdAt: Date.now()});
+
   // Server <- Client :: createMessage
   socket.on('createMessage', (data) => {
     console.log('new message being created!');
@@ -30,8 +33,10 @@ io.on('connection', (socket) => {
       createdAt: Date.now()
     };
 
+    socket.emit('welcome to the chat app');
     // emit a newMessage event, with the timestamped data.
     io.emit('newMessage', resData);
+    // socket.broadcast.emit('newMessage', resData);
   });
 
   // Set handler for when the client disconnects.
