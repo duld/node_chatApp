@@ -41,6 +41,11 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('createLocationMessage', (coords) => {
+    io.emit('newMessage', generateMessage('Admin', `${coords.latitude}, ${coords.longitude}`
+    ))
+  })
+
   // Set handler for when the client disconnects.
   socket.on('disconnect', () => {
     console.log('The client has disconected');

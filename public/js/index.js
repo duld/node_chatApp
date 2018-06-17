@@ -39,4 +39,21 @@ messageForm.addEventListener('submit', function (e){
   // grab the text in the message box
   var newMessage = document.querySelector('[name=message]').value;
   createMessage('User', newMessage);
-})
+});
+
+var locationButton = document.querySelector('#send-location');
+locationButton.addEventListener('click', function (e){
+
+  if (!navigator.geolocation) {
+    return alert('gelocation not supported by your browser.');
+  } else {
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      socket.emit('createLocationMessage', {
+        latitude: pos.coords.latitude,
+        longitude: pos.coords.longitude
+      });
+    }, function (err) {
+      alert('Unable to fetch location.')
+    })
+  }
+});
