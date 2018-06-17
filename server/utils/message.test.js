@@ -15,6 +15,7 @@ describe('generateMessage', () => {
 });
 
 describe('generateLocationMessage', () => {
+  let maps_url = 'https://google.com/maps?q='
   it('Should generate a correct location object', () => {
     // setup state
     let loc = {from: 'Jeff', lat: 33, lon: 44};
@@ -22,6 +23,6 @@ describe('generateLocationMessage', () => {
 
     // make our assertions
     expect(locMessage.from).toBe(loc.from);
-    expect(locMessage.url).toBe(`https://google.com/maps?q=${loc.lat},${loc.lon}`);
+    expect(locMessage.url).toBe(`${maps_url}${loc.lat},${loc.lon}`);
   });
 });
