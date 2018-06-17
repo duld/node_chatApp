@@ -9,11 +9,11 @@ let app = express();
 let server = http.createServer(app);
 let io = socketIO(server);
 
-
-// Set director to load static files from.
+// Set directory to load static files from.
 const publicPath = path.join(__dirname, '/../public');
 app.use(express.static(publicPath));
 
+// Socket IO
 io.on('connection', (socket) => {
   // grab the connection ID and log it.
   const connection_id = socket.client.conn.id;
@@ -23,10 +23,15 @@ io.on('connection', (socket) => {
   // Server <- Client :: createMessage
   socket.on('createMessage', (data) => {
     console.log('new message being created!');
-    // timestamp the message data
-    data.createdAt = Date.now();
+    
+    let resData = {
+      from: data.from,
+      text: data.text,
+      createdAt: Date.now()
+    };
+
     // emit a newMessage event, with the timestamped data.
-    socket.emit('newMessage', data);
+    io.emit('newMessage', resData);
   });
 
   // Set handler for when the client disconnects.
