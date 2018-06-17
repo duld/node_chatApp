@@ -30,6 +30,22 @@ socket.on('newMessage', function (data) {
   document.querySelector('#messages').appendChild(li);
 });
 
+// newLocationMessage - handler
+socket.on('newLocationMessage', function (message) {
+  var li = document.createElement('li');
+  var a = document.createElement('a');
+  var from = document.createTextNode(`${message.from}: `);
+  var text = document.createTextNode('My current Location');
+  a.href = message.url;
+  a.target = '_blank';
+  a.appendChild(text);
+
+  li.appendChild(from);
+  li.appendChild(a);
+  document.querySelector('#messages').appendChild(li);
+
+});
+
 
 // Form
 var messageForm = document.querySelector('#message-form');
@@ -37,7 +53,9 @@ messageForm.addEventListener('submit', function (e){
   e.preventDefault();
   
   // grab the text in the message box
-  var newMessage = document.querySelector('[name=message]').value;
+  var textInput = document.querySelector('[name=message]')
+  var newMessage = textInput.value;
+  textInput.value = "";
   createMessage('User', newMessage);
 });
 
