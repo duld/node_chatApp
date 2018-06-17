@@ -28,8 +28,7 @@ io.on('connection', (socket) => {
 
   // Server <- Client :: createMessage
   socket.on('createMessage', (message, callback) => {
-    console.log('new message being created!');
-    
+
     let resMessage = {
       from: message.from,
       text: message.text,
@@ -37,7 +36,9 @@ io.on('connection', (socket) => {
     };
 
     io.emit('newMessage', resMessage);
-    callback('this is form the server');
+    if (callback) {
+      callback('this is form the server');
+    }
   });
 
   // Set handler for when the client disconnects.

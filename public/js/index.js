@@ -22,4 +22,21 @@ var createMessage = function(from, text) {
 // newMessage - handler
 socket.on('newMessage', function (data) {
   console.log(JSON.stringify(data));
+  // append the new message to our 'messages' list
+  var li = document.createElement('li');
+  var message = document.createTextNode(`${data.from}: ${data.text}`);
+  li.appendChild(message);
+
+  document.querySelector('#messages').appendChild(li);
 });
+
+
+// Form
+var messageForm = document.querySelector('#message-form');
+messageForm.addEventListener('submit', function (e){
+  e.preventDefault();
+  
+  // grab the text in the message box
+  var newMessage = document.querySelector('[name=message]').value;
+  createMessage('User', newMessage);
+})
