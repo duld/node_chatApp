@@ -22,25 +22,22 @@ io.on('connection', (socket) => {
   // grab the connection ID and log it.
   const connection_id = socket.client.conn.id;
   console.log('new user is connected');
-  console.log(`Connection ID: ${connection_id}`);
 
   socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user has joined'));
 
   // Server <- Client :: createMessage
-  socket.on('createMessage', (data) => {
+  socket.on('createMessage', (message, callback) => {
     console.log('new message being created!');
     
-    let resData = {
-      from: data.from,
-      text: data.text,
+    let resMessage = {
+      from: message.from,
+      text: message.text,
       createdAt: Date.now()
     };
 
-    socket.emit('welcome to the chat app');
-    // emit a newMessage event, with the timestamped data.
-    io.emit('newMessage', resData);
-    // socket.broadcast.emit('newMessage', resData);
+    io.emit('newMessage', resMessage);
+    callback('this is form the server');
   });
 
   // Set handler for when the client disconnects.

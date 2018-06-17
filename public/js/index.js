@@ -10,24 +10,13 @@ socket.on('disconnect', function () {
   console.log('connection closed.');
 });
 
-// newEmail - handler
-socket.on('newEmail', function (data) {
-  console.log('New Email!');
-  console.log(data);
-});
-
-// createEmail - event emit
-var createEmail = function (newEmail, text) {
-  socket.emit('createEmail', {
-    email: newEmail,
-    text: text
-  });
-};
-
 // createMessage - event emit
 var createMessage = function(from, text) {
   var data = {from: from, text: text}
-  socket.emit('createMessage', data);
+  socket.emit('createMessage', data, function (res) {
+    console.log('Ack recieved');
+    console.log(res);
+  });
 };
 
 // newMessage - handler
