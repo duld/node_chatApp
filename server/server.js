@@ -5,7 +5,7 @@ const express = require('express');
 const socketIO = require('socket.io');
 
 // Utils
-const {generateMessage} = require('./utils/message');
+const {generateMessage, generateLocationMessage} = require('./utils/message');
 
 // Server Setup.
 const PORT = process.env.PORT || 3000;
@@ -42,8 +42,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('createLocationMessage', (coords) => {
-    io.emit('newMessage', generateMessage('Admin', `${coords.latitude}, ${coords.longitude}`
-    ))
+    io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
   })
 
   // Set handler for when the client disconnects.
