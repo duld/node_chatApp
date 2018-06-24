@@ -21,29 +21,29 @@ var createMessage = function(from, text) {
 
 // newMessage - handler
 socket.on('newMessage', function (data) {
-  console.log(JSON.stringify(data));
-  // append the new message to our 'messages' list
-  var li = document.createElement('li');
-  var message = document.createTextNode(`${data.from}: ${data.text}`);
-  li.appendChild(message);
+  var formattedTime =  moment(data.createdAt).format('h:mm a');
+  var template = document.querySelector('#message-template').innerHTML;
+  var html = Mustache.render(template, {
+    text: data.text,
+    from: data.from,
+    createdAt: formattedTime
+  });
 
-  document.querySelector('#messages').appendChild(li);
+  document.querySelector('#messages').insertAdjacentHTML('beforeend', html);
 });
 
 // newLocationMessage - handler
 socket.on('newLocationMessage', function (message) {
-  var li = document.createElement('li');
-  var a = document.createElement('a');
-  var from = document.createTextNode(`${message.from}: `);
-  var text = document.createTextNode('My current Location');
-  a.href = message.url;
-  a.target = '_blank';
-  a.appendChild(text);
+  var formattedTime = moment(message.createdAt).format('h:mm a');
+  var template = document.querySelector('#location-message-template').innerHTML;
+  var html = Mustache.render(template, {
+    from: message.from,
+    text: message.text,
+    url: message.url,
+    createdAt: formattedTime
+  });
 
-  li.appendChild(from);
-  li.appendChild(a);
-  document.querySelector('#messages').appendChild(li);
-
+  document.querySelector('#messages').insertAdjacentHTML('beforeend', html);
 });
 
 
