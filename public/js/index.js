@@ -51,7 +51,6 @@ socket.on('newLocationMessage', function (message) {
 var messageForm = document.querySelector('#message-form');
 messageForm.addEventListener('submit', function (e){
   e.preventDefault();
-  
   // grab the text in the message box
   var textInput = document.querySelector('[name=message]')
   var newMessage = textInput.value;
@@ -59,19 +58,26 @@ messageForm.addEventListener('submit', function (e){
   createMessage('User', newMessage);
 });
 
+// Send Location - button
 var locationButton = document.querySelector('#send-location');
 locationButton.addEventListener('click', function (e){
-
+  // check if the user browser doesnt have geolocation.
   if (!navigator.geolocation) {
+    locationButton.disabled = true;
     return alert('gelocation not supported by your browser.');
+  // if it does, get the current position and send the values to socketIO.
   } else {
     navigator.geolocation.getCurrentPosition(function (pos) {
+      locationButton.text = 'Sending Location';
       socket.emit('createLocationMessage', {
         latitude: pos.coords.latitude,
         longitude: pos.coords.longitude
       });
+      // disable the button.
+      locationButton.disabled = true;
+      locationButton.text = 'Send Location';
     }, function (err) {
       alert('Unable to fetch location.')
-    })
+    });
   }
 });
