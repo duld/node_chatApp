@@ -34,6 +34,7 @@ socket.on('connect', function () {
       window.location.href = '/';
     } else {
       console.log('No error found!');
+      setPageTitle(params.room);
     }
   });
 });
@@ -116,3 +117,8 @@ locationButton.addEventListener('click', function (e){
     });
   }
 });
+
+// Set title basedon chatroom
+function setPageTitle(roomName) {
+  document.title = document.title + ' ' + roomName;
+}
