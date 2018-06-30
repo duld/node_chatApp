@@ -58,13 +58,20 @@ Using acknowledgements and the values they return will allow us some insight on 
 
 
 ## Autoscrolling
-
+var obj = arr.reduce(function(acc, cur, i) {
+  acc[i] = cur;
+  return acc;
+}, {});
 
 ## Adding a Join Page
 
 
 ## Passing Room Data
+We need to get the information passed into the __username__ and __roomname__ field. Right now the values are stored in the URL 'querystring'. Andrew uses a JS snippet to extract the values from the URL into a JS Object using jQuery. I don't want to use jQuery. 
 
+The modern way to get this information is to use the __URLSearchParams()__ browser API. But this method is not backwards compatible with older browsers. Instead I will try to get the values based on an older API; __window.location.search__.
+
+We can grab the querystring and begin transforming it ourselves, removing the leading '?' the equal signs (=) and the plus symbol (+). Then run a reduce on the result to convert it into an object.
 
 ## Socket.io Roms
 
