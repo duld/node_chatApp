@@ -25,7 +25,16 @@ function scrollToBottom () {
 
 // connect - handler
 socket.on('connect', function () {
-  console.log('connected to server');
+  // console.log('connected to server');
+  var params = getPramsAsObj(window.location.search);
+  // console.log(params)
+  socket.emit('join', params, function (err){
+    if (err) {
+      
+    } else {
+
+    }
+  });
 });
 
 // disconnect - handler
