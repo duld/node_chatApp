@@ -55,7 +55,7 @@ Using acknowledgements and the values they return will allow us some insight on 
 
 
 ## Moustache.js
-
+moustache.js is a handlebars
 
 ## Autoscrolling
 var obj = arr.reduce(function(acc, cur, i) {
@@ -73,8 +73,13 @@ The modern way to get this information is to use the __URLSearchParams()__ brows
 
 We can grab the querystring and begin transforming it ourselves, removing the leading '?' the equal signs (=) and the plus symbol (+). Then run a reduce on the result to convert it into an object.
 
-## Socket.io Roms
-
+## Socket.io Rooms
+It is very simple to join a room, in socketIO. You simply need to specify the room on the socket object that you would like to join.
+```JavaScript
+let myMessage = 'Hi everybody!';
+socket.join('very cool chat room');
+socket.to('very cool chat room').emit('newMessage', myMessage);
+``` 
 
 ## Storing Users with ES6 Classes part 1
 
