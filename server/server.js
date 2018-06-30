@@ -23,9 +23,7 @@ io.on('connection', (socket) => {
   // grab the connection ID and log it.
   const connection_id = socket.client.conn.id;
 
-  // Welcome the user to to the chat app and notify all other users of their arrival.
-  socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
-  socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user has joined'));
+ 
 
   // Server <- Client :: join
   socket.on('join', (params, callback) => {
@@ -33,6 +31,11 @@ io.on('connection', (socket) => {
       callback('Name and room name are required.');
     }
 
+    socket.join(params.room);
+    
+    // Welcome the user to to the chat app and notify all other users of their arrival.
+    socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
+    socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.name} has joined.`));
     callback();
   });
 
