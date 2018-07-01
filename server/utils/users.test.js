@@ -66,7 +66,7 @@ describe('Users class', () => {
   });
 
   // User.removeUser() - not found
-  it('Should remove a user', () => {
+  it('Should not remove a user if an invalid id is privided', () => {
     // create dummy user data
     let user = {
       id: 1234,
