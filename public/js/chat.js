@@ -27,7 +27,7 @@ function scrollToBottom () {
 socket.on('connect', function () {
   // console.log('connected to server');
   var params = getPramsAsObj(window.location.search);
-  console.log(params)
+  // console.log(params)
   socket.emit('join', params, function (err){
     if (err) {
       alert(err);
@@ -45,11 +45,11 @@ socket.on('disconnect', function () {
 });
 
 // createMessage - event emit
-var createMessage = function(from, text) {
-  var data = {from: from, text: text}
-  socket.emit('createMessage', data, function (res) {
-    console.log('Ack recieved');
-    console.log(res);
+var createMessage = function(text) {
+  socket.emit('createMessage', text, function (res) {
+    if (res) {
+      console.log(res)
+    }
   });
 };
 
@@ -82,6 +82,25 @@ socket.on('newLocationMessage', function (message) {
   scrollToBottom();
 });
 
+// updateUserList - handler
+socket.on('updateUserList', function (users){
+  var users_div = document.querySelector('#users');
+  users_div.innerHTML = "";
+
+  // console.log('users list:  ' + users.join(', '));
+  var ol = document.createElement('ol');
+  var li, text;
+  users.forEach(function (user){
+    li = document.createElement('li');
+    text = document.createTextNode(user);
+    li.appendChild(text);
+    ol.appendChild(li);
+  });
+  
+  users_div.appendChild(ol);
+
+});
+
 
 // Form
 var messageForm = document.querySelector('#message-form');
@@ -91,7 +110,7 @@ messageForm.addEventListener('submit', function (e){
   var textInput = document.querySelector('[name=message]')
   var newMessage = textInput.value;
   textInput.value = "";
-  createMessage('User', newMessage);
+  createMessage(newMessage);
 });
 
 // Send Location - button

@@ -45,6 +45,7 @@ class Users {
     this.users = this.users.filter((cur) => {
       if (cur.id === id){
         removedUser = cur;
+        return false;
       } else {
         return true;
       }
